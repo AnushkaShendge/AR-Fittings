@@ -7,26 +7,27 @@ import 'package:arcore_flutter_plugin/src/shape/arcore_shape.dart';
 class ArCoreRotatingNode extends ArCoreNode {
   ArCoreRotatingNode({
     this.shape,
-    double degreesPerSecond,
-    Vector3 position,
-    Vector3 scale,
-    Vector4 rotation,
-    String name,
-  })  : degreesPerSecond = ValueNotifier(90.0),
-        super(
+    this.degreesPerSecond = 0.0,
+    String? name,
+    Vector3? position,
+    Vector3? scale,
+    Vector4? rotation,
+  }) : super(
+          name: name ?? '',
           shape: shape,
-          name: name,
           position: position,
           scale: scale,
+          rotation: rotation,
         );
 
-  final ArCoreShape shape;
+  final double degreesPerSecond;
+  final ArCoreShape? shape;
 
-  final ValueNotifier<double> degreesPerSecond;
-
+  @override
   Map<String, dynamic> toMap() => <String, dynamic>{
-        'degreesPerSecond': this.degreesPerSecond.value,
+        'degreesPerSecond': this.degreesPerSecond,
       }
         ..addAll(super.toMap())
         ..removeWhere((String k, dynamic v) => v == null);
 }
+

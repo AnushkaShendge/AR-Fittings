@@ -1,42 +1,33 @@
 import 'dart:typed_data';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-
-import '../arcore_flutter_plugin.dart';
+import 'arcore_types.dart';
 
 class ArCoreFaceController {
   ArCoreFaceController(
-      {int id, this.enableAugmentedFaces, this.debug = false}) {
-    _channel = MethodChannel('arcore_flutter_plugin_$id');
-    _channel.setMethodCallHandler(_handleMethodCalls);
+      {required int id, required this.enableAugmentedFaces, this.debug = false}) {
+    _channel = MethodChannel('arcore_flutter_plugin_face_$id');
+    _channel.setMethodCallHandler(_handleMethodCall);
     init();
   }
 
   final bool enableAugmentedFaces;
   final bool debug;
-  MethodChannel _channel;
-  StringResultHandler onError;
+  late MethodChannel _channel;
+  StringResultHandler? onError;
 
-  init() async {
-    try {
-      await _channel.invokeMethod<void>('init', {
-        'enableAugmentedFaces': enableAugmentedFaces,
-      });
-    } on PlatformException catch (ex) {
-      print(ex.message);
-    }
+  void init() {
+    _channel.invokeMethod<void>('init', {
+      'enableAugmentedFaces': enableAugmentedFaces,
+    });
   }
 
-  Future<dynamic> _handleMethodCalls(MethodCall call) async {
+  Future<dynamic> _handleMethodCall(MethodCall call) async {
     if (debug) {
       print('_platformCallHandler call ${call.method} ${call.arguments}');
     }
     switch (call.method) {
       case 'onError':
-        if (onError != null) {
-          onError(call.arguments);
-        }
+        onError?.call(call.arguments);
         break;
       default:
         if (debug) {
@@ -46,16 +37,16 @@ class ArCoreFaceController {
     return Future.value();
   }
 
-  Future<void> loadMesh(
-      {@required Uint8List textureBytes, String skin3DModelFilename}) {
-    assert(textureBytes != null);
-    return _channel.invokeMethod('loadMesh', {
+  void loadMesh(
+      {required Uint8List textureBytes, String? skin3DModelFilename}) {
+    _channel.invokeMethod('loadMesh', {
       'textureBytes': textureBytes,
       'skin3DModelFilename': skin3DModelFilename
     });
   }
 
   void dispose() {
-    _channel?.invokeMethod<void>('dispose');
+    _channel.invokeMethod<void>('dispose');
   }
 }
+

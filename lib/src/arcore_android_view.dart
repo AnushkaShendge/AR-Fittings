@@ -11,9 +11,9 @@ class ArCoreAndroidView extends AndroidView {
   final bool debug;
 
   ArCoreAndroidView(
-      {Key key,
-      @required this.viewType,
-      this.onPlatformViewCreated,
+      {Key? key,
+      required this.viewType,
+      required this.onPlatformViewCreated,
       this.arCoreViewType = ArCoreViewType.STANDARDVIEW,
       this.debug = false})
       : super(
@@ -30,3 +30,4 @@ class ArCoreAndroidView extends AndroidView {
           creationParamsCodec: const StandardMessageCodec(),
         );
 }
+

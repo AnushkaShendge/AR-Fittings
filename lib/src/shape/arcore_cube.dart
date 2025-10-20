@@ -6,8 +6,8 @@ import 'package:arcore_flutter_plugin/src/shape/arcore_shape.dart';
 
 class ArCoreCube extends ArCoreShape {
   ArCoreCube({
-    this.size,
-    List<ArCoreMaterial> materials,
+    required this.size,
+    required List<ArCoreMaterial> materials,
   }) : super(
           materials: materials,
         );
@@ -19,3 +19,4 @@ class ArCoreCube extends ArCoreShape {
         'size': convertVector3ToMap(this.size),
       }..addAll(super.toMap());
 }
+

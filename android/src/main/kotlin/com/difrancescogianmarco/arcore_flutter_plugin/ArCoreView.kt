@@ -243,7 +243,7 @@ class ArCoreView(val activity: Activity, context: Context, messenger: BinaryMess
 
     private fun setupLifeCycle(context: Context) {
         activityLifecycleCallbacks = object : Application.ActivityLifecycleCallbacks {
-            override fun onActivityCreated(activity: Activity?, savedInstanceState: Bundle?) {
+            override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
                 debugLog("onActivityCreated")
 //                maybeEnableArButton()
             }
@@ -318,7 +318,7 @@ class ArCoreView(val activity: Activity, context: Context, messenger: BinaryMess
                             methodChannel.invokeMethod("onNodeTap", hitTestResult.node?.name)
                             return@setOnTouchListener true
                         }
-                        return@setOnTouchListener gestureDetector.onTouchEvent(event)
+                        return@setOnTouchListener event?.let { gestureDetector.onTouchEvent(it) } ?: false
                     }
         }
         val enableUpdateListener: Boolean? = call.argument("enableUpdateListener")

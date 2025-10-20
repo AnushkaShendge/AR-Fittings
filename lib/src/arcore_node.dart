@@ -10,40 +10,48 @@ class ArCoreNode {
   ArCoreNode({
     this.shape,
     this.image,
-    String name,
-    Vector3 position,
-    Vector3 scale,
-    Vector4 rotation,
     this.children = const [],
-  })  : name = name ?? random_string.randomString(),
-        position = ValueNotifier(position),
-        scale = ValueNotifier(scale),
-        rotation = ValueNotifier(rotation),
-        assert(!(shape != null && image != null));
+    required this.name,
+    this.position,
+    this.scale,
+    this.rotation,
+  });
 
   final List<ArCoreNode> children;
-
-  final ArCoreShape shape;
-
-  final ValueNotifier<Vector3> position;
-
-  final ValueNotifier<Vector3> scale;
-
-  final ValueNotifier<Vector4> rotation;
-
   final String name;
-
-  final ArCoreImage image;
+  final ArCoreShape? shape;
+  final ArCoreImage? image;
+  final Vector3? position;
+  final Vector3? scale;
+  final Vector4? rotation;
 
   Map<String, dynamic> toMap() => <String, dynamic>{
         'dartType': runtimeType.toString(),
-        'shape': shape?.toMap(),
-        'position': convertVector3ToMap(position.value),
-        'scale': convertVector3ToMap(scale.value),
-        'rotation': convertVector4ToMap(rotation.value),
         'name': name,
+        'shape': shape?.toMap(),
         'image': image?.toMap(),
+        'position': position != null
+            ? convertVector3ToMap(position!)
+            : convertVector3ToMap(Vector3.zero()),
+        'scale': scale != null
+            ? convertVector3ToMap(scale!)
+            : convertVector3ToMap(Vector3(1.0, 1.0, 1.0)),
+        'rotation': rotation != null
+            ? convertVector4ToMap(rotation!)
+            : convertVector4ToMap(Vector4(0.0, 0.0, 0.0, 1.0)),
         'children':
-            this.children.map((arCoreNode) => arCoreNode.toMap()).toList(),
+            children.map((ArCoreNode child) => child.toMap()).toList(),
       }..removeWhere((String k, dynamic v) => v == null);
+
+  @override
+  List<Object?> get props => [
+        shape,
+        image,
+        children,
+        name,
+        position,
+        scale,
+        rotation,
+      ];
 }
+

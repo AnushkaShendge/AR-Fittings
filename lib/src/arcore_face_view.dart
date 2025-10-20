@@ -13,8 +13,8 @@ class ArCoreFaceView extends StatefulWidget {
   final bool debug;
 
   const ArCoreFaceView(
-      {Key key,
-      this.onArCoreViewCreated,
+      {Key? key,
+      required this.onArCoreViewCreated,
       this.enableAugmentedFaces = false,
       this.debug = false})
       : super(key: key);
@@ -67,3 +67,4 @@ class _ArCoreFaceViewState extends State<ArCoreFaceView>
     super.dispose();
   }
 }
+

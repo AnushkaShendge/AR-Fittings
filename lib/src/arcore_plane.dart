@@ -1,11 +1,11 @@
 import 'arcore_pose.dart';
 
 class ArCorePlane {
-  double extendX;
-  double extendZ;
+  late double extendX;
+  late double extendZ;
 
-  ArCorePose centerPose;
-  ArCorePlaneType type;
+  late ArCorePose centerPose;
+  late ArCorePlaneType type;
 
   ArCorePlane.fromMap(Map<dynamic, dynamic> map) {
     this.extendX = map["extendX"];
@@ -20,3 +20,4 @@ enum ArCorePlaneType {
   HORIZONTAL_DOWNWARD_FACING,
   VERTICAL,
 }
+
